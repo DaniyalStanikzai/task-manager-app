@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+<div class="form-card">
+  <h2>New Task</h2>
+  <form action="/tasks" method="POST">
+    <div class="form-group">
+      <label>Project</label>
+      <select name="projectId" required>
+        <% projects.forEach(p => { %>
+          <option value="<%= p.id %>" <%= p.id == projectId ? 'selected' : '' %>><%= p.title %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" name="title" required />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea name="description" rows="3"></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Status</label>
+        <select name="status">
+          <option value="todo">To Do</option>
+          <option value="in-progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select name="priority">
+          <option value="low">Low</option>
+          <option value="medium" selected>Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Due Date</label>
+      <input type="date" name="dueDate" />
+    </div>
+    <button class="btn btn-primary" type="submit">Create Task</button>
+    <a href="/projects" class="btn">Cancel</a>
+  </form>
+</div>
+<%- include('../partials/footer') %>

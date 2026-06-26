@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+<div class="page-header">
+  <h1 style="border-left: 4px solid <%= project.color %>; padding-left: 12px"><%= project.title %></h1>
+  <div>
+    <a href="/tasks/new?projectId=<%= project.id %>" class="btn btn-primary">+ Add Task</a>
+    <a href="/projects/<%= project.id %>/edit" class="btn">Edit</a>
+  </div>
+</div>
+<p><%= project.description || '' %></p>
+
+<div class="kanban">
+  <% ['todo', 'in-progress', 'done'].forEach(status => { %>
+    <div class="kanban-col">
+      <h3 class="kanban-title <%= status %>"><%= status %></h3>
+      <% project.Tasks.filter(t => t.status === status).forEach(task => { %>
+        <div class="task-card priority-<%= task.priority %>">
+          <div class="task-header">
+            <strong><%= task.title %></strong>
+            <span class="badge"><%= task.priority %></span>
+          </div>
+          <% if (task.dueDate) { %><small>Due: <%= task.dueDate %></small><% } %>
+          <div class="task-actions">
+            <a href="/tasks/<%= task.id %>/edit" class="btn btn-sm">Edit</a>
+            <form action="/tasks/<%= task.id %>?_method=DELETE" method="POST" style="display:inline">
+              <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this task?')">Del</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% }) %>
+</div>
+<%- include('../partials/footer') %>
